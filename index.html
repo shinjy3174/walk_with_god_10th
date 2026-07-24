@@ -1,169 +1,153 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>당신의 여행 스타일은?</title>
+    <style>
+        body { background-color: #f7f9fa; margin: 0; font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif; display: flex; justify-content: center; }
+        #app-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: #ffffff; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding: 30px 20px; box-sizing: border-box; text-align: center; position: relative; }
+        
+        .hidden { display: none !important; }
+        .title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 30px; line-height: 1.4; word-break: keep-all; }
+        
+        /* 진행도 바 스타일 */
+        .progress-container { width: 100%; background-color: #f1f3f5; border-radius: 10px; height: 8px; margin-bottom: 30px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: #ff9a9e; width: 0%; transition: width 0.3s ease; }
+
+        /* 초기화면 & 인풋 */
+        .intro-img { font-size: 60px; margin: 20px 0; }
+        .name-input { width: 80%; padding: 15px; font-size: 16px; border: 2px solid #e1e4e8; border-radius: 12px; margin-bottom: 20px; text-align: center; outline: none; transition: 0.3s; }
+        .name-input:focus { border-color: #ff9a9e; }
+        
+        /* 버튼 */
+        .btn { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; color: white; background-color: #ff9a9e; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; word-break: keep-all; }
+        .btn:disabled { background-color: #e1e4e8; color: #999; cursor: not-allowed; }
+        .btn:active:not(:disabled) { transform: scale(0.98); }
+        .option-btn { background-color: #f8f9fa; color: #333; border: 2px solid #f1f3f5; margin-bottom: 12px; text-align: left; padding-left: 20px; }
+        .option-btn:hover:not(:disabled) { border-color: #ff9a9e; background-color: #fff0f2; }
+        
+        /* 결과 화면 */
+        .result-box { background-color: #fff0f2; border-radius: 20px; padding: 40px 20px; margin-top: 20px; }
+        .result-combo { font-size: 40px; font-weight: bold; color: #ff6b81; letter-spacing: 5px; margin: 20px 0; }
+        .result-desc { font-size: 16px; line-height: 1.6; color: #555; }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="ko"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;당신의 여행 스타일은?&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { background-color: #f7f9fa; margin: 0; font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif; display: flex; justify-content: center; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>#app-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: #ffffff; box-shadow: 0 0 20px rgba(0,0,0,0.05); padding: 30px 20px; box-sizing: border-box; text-align: center; position: relative; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.hidden { display: none !important; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.title { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 30px; line-height: 1.4; word-break: keep-all; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* 진행도 바 스타일 */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.progress-container { width: 100%; background-color: #f1f3f5; border-radius: 10px; height: 8px; margin-bottom: 30px; overflow: hidden; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.progress-bar { height: 100%; background-color: #ff9a9e; width: 0%; transition: width 0.3s ease; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* 초기화면 &amp; 인풋 */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.intro-img { font-size: 60px; margin: 20px 0; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.name-input { width: 80%; padding: 15px; font-size: 16px; border: 2px solid #e1e4e8; border-radius: 12px; margin-bottom: 20px; text-align: center; outline: none; transition: 0.3s; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.name-input:focus { border-color: #ff9a9e; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* 버튼 */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.btn { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; color: white; background-color: #ff9a9e; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; word-break: keep-all; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.btn:disabled { background-color: #e1e4e8; color: #999; cursor: not-allowed; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.btn:active:not(:disabled) { transform: scale(0.98); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.option-btn { background-color: #f8f9fa; color: #333; border: 2px solid #f1f3f5; margin-bottom: 12px; text-align: left; padding-left: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.option-btn:hover:not(:disabled) { border-color: #ff9a9e; background-color: #fff0f2; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* 결과 화면 */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.result-box { background-color: #fff0f2; border-radius: 20px; padding: 40px 20px; margin-top: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.result-combo { font-size: 40px; font-weight: bold; color: #ff6b81; letter-spacing: 5px; margin: 20px 0; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.result-desc { font-size: 16px; line-height: 1.6; color: #555; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="app-container"&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 1. 초기 화면 --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="screen-intro"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="intro-img"&gt;✈️&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="title"&gt;당신의 여행 스타일은?&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;input type="text" id="user-name" class="name-input" placeholder="이름을 입력해주세요" autocomplete="off"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button id="start-btn" class="btn" disabled&gt;테스트 시작하기&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 2. 문항 화면 --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="screen-quiz" class="hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="progress-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="progress-bar" class="progress-bar"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="question-text" class="title"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="options-container"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 3. 결과 화면 --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="screen-result" class="hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="title"&gt;테스트 완료! 🎉&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="result-box"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="font-size: 18px;"&gt;&lt;b id="display-name"&gt;&lt;/b&gt;님의 선택은&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="display-combo" class="result-combo"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="result-desc"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>즐거운 여행이 되도록&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>수련회 조를 짜고 있어요.&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>결과는 다음주에 공개됩니다!</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ✅ 여기에 추후 발급받을 구글 스크립트 웹앱 URL을 넣게 됩니다.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaCvtTP2K_xEzVlZDZCYbVZxBldAqYFHzVepcxrmQR8jo-1QnFa7dBxr09p69sHkXE/exec";<span class="Apple-converted-space"> </span></p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>const questions = [</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ text: "1. 3일 뒤 제주도 수련회를 가게 된 당신!&lt;br&gt;지금 바로 하는 것은? 🧳", options: [ { id: 'A', text: "맛집, 카페, 가볼 곳을 찾는다" }, { id: 'B', text: "일단 캐리어부터 싼다" }, { id: 'C', text: "둘 다 이미 끝났다" } ] },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ text: "2. 제주도 도착🏝️ 자유시간이 주어졌다.&lt;br&gt;어디를 가볼까?", options: [ { id: 'A', text: "제주는 역시 바다지~" }, { id: 'B', text: "나무가 우거진 산 속 숲길을 거닐고 싶어" }, { id: 'C', text: "아.. 나이들었나. 일단 좀 쉬자" } ] },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ text: "3. 끝내주는 식사를 한 당신.&lt;br&gt;이제 뭐할까? 🤔", options: [ { id: 'A', text: "디저트배는 따로 있지! 카페 어디갈까?" }, { id: 'B', text: "제주도 뽕 뽑아야지! 다음 구경할 곳은?" }, { id: 'C', text: "배부르니 적당히 쉬면서 산책 해볼까?" } ] },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{ text: "4. 하루가 다 끝났다! 🌝&lt;br&gt;나는 이제", options: [ { id: 'A', text: "얼른 씻고 자야 내일도 알차게 보내지" }, { id: 'B', text: "수련회까지 왔는데 역시 늦은밤 딥톡" }, { id: 'C', text: "나 코골면 어떡하지.." } ] }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>let currentQuestionIndex = 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>let userChoices = [];</p>
-<p class="p1"><span class="Apple-converted-space">    </span>let userName = "";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>const nameInput = document.getElementById('user-name');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const startBtn = document.getElementById('start-btn');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const screenIntro = document.getElementById('screen-intro');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const screenQuiz = document.getElementById('screen-quiz');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const screenResult = document.getElementById('screen-result');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const questionText = document.getElementById('question-text');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const optionsContainer = document.getElementById('options-container');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const progressBar = document.getElementById('progress-bar');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>nameInput.addEventListener('input', function() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>startBtn.disabled = this.value.trim().length === 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>startBtn.addEventListener('click', function() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>userName = nameInput.value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>screenIntro.classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>screenQuiz.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>renderQuestion();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function renderQuestion() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// 진행도 바 업데이트</p>
-<p class="p1"><span class="Apple-converted-space">        </span>progressBar.style.width = (currentQuestionIndex / questions.length) * 100 + '%';</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const currentQ = questions[currentQuestionIndex];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>questionText.innerHTML = currentQ.text;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>optionsContainer.innerHTML = '';<span class="Apple-converted-space"> </span></p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>currentQ.options.forEach(option =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const button = document.createElement('button');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>button.className = 'btn option-btn';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>button.innerText = option.text;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>button.onclick = () =&gt; selectOption(option.id);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>optionsContainer.appendChild(button);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function selectOption(choiceId) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>userChoices.push(choiceId);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>currentQuestionIndex++;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (currentQuestionIndex &lt; questions.length) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>renderQuestion();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>showResult();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function showResult() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>progressBar.style.width = '100%'; // 진행도 100%</p>
-<p class="p1"><span class="Apple-converted-space">        </span>screenQuiz.classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>screenResult.classList.remove('hidden');</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const finalResult = userChoices.join('');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('display-name').innerText = userName;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('display-combo').innerText = finalResult;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>// 구글 시트로 데이터 전송 (URL이 세팅되어 있을 때만 작동)</p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (GOOGLE_SCRIPT_URL !== "여기에_URL을_붙여넣으세요") {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const sendUrl = `${GOOGLE_SCRIPT_URL}?name=${encodeURIComponent(userName)}&amp;result=${encodeURIComponent(finalResult)}`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>fetch(sendUrl, { method: 'GET', mode: 'no-cors' }).catch(err =&gt; console.log('전송 에러:', err));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div id="app-container">
+    
+    <!-- 1. 초기 화면 -->
+    <div id="screen-intro">
+        <div class="intro-img">✈️</div>
+        <div class="title">당신의 여행 스타일은?</div>
+        <input type="text" id="user-name" class="name-input" placeholder="이름을 입력해주세요" autocomplete="off">
+        <button id="start-btn" class="btn" disabled>테스트 시작하기</button>
+    </div>
+
+    <!-- 2. 문항 화면 -->
+    <div id="screen-quiz" class="hidden">
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="question-text" class="title"></div>
+        <div id="options-container"></div>
+    </div>
+
+    <!-- 3. 결과 화면 -->
+    <div id="screen-result" class="hidden">
+        <div class="title">테스트 완료! 🎉</div>
+        <div class="result-box">
+            <div style="font-size: 18px;"><b id="display-name"></b>님의 선택은</div>
+            <div id="display-combo" class="result-combo"></div>
+            <div class="result-desc">
+                즐거운 여행이 되도록<br>
+                수련회 조를 짜고 있어요.<br>
+                결과는 다음주에 공개됩니다!
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ✅ 여기에 추후 발급받을 구글 스크립트 웹앱 URL을 넣게 됩니다.
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaCvtTP2K_xEzVlZDZCYbVZxBldAqYFHzVepcxrmQR8jo-1QnFa7dBxr09p69sHkXE/exec"; 
+
+    const questions = [
+        { text: "1. 3일 뒤 제주도 수련회를 가게 된 당신!<br>지금 바로 하는 것은? 🧳", options: [ { id: 'A', text: "맛집, 카페, 가볼 곳을 찾는다" }, { id: 'B', text: "일단 캐리어부터 싼다" }, { id: 'C', text: "둘 다 이미 끝났다" } ] },
+        { text: "2. 제주도 도착🏝️ 자유시간이 주어졌다.<br>어디를 가볼까?", options: [ { id: 'A', text: "제주는 역시 바다지~" }, { id: 'B', text: "나무가 우거진 산 속 숲길을 거닐고 싶어" }, { id: 'C', text: "아.. 나이들었나. 일단 좀 쉬자" } ] },
+        { text: "3. 끝내주는 식사를 한 당신.<br>이제 뭐할까? 🤔", options: [ { id: 'A', text: "디저트배는 따로 있지! 카페 어디갈까?" }, { id: 'B', text: "제주도 뽕 뽑아야지! 다음 구경할 곳은?" }, { id: 'C', text: "배부르니 적당히 쉬면서 산책 해볼까?" } ] },
+        { text: "4. 하루가 다 끝났다! 🌝<br>나는 이제", options: [ { id: 'A', text: "얼른 씻고 자야 내일도 알차게 보내지" }, { id: 'B', text: "수련회까지 왔는데 역시 늦은밤 딥톡" }, { id: 'C', text: "나 코골면 어떡하지.." } ] }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userChoices = [];
+    let userName = "";
+
+    const nameInput = document.getElementById('user-name');
+    const startBtn = document.getElementById('start-btn');
+    const screenIntro = document.getElementById('screen-intro');
+    const screenQuiz = document.getElementById('screen-quiz');
+    const screenResult = document.getElementById('screen-result');
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const progressBar = document.getElementById('progress-bar');
+
+    nameInput.addEventListener('input', function() {
+        startBtn.disabled = this.value.trim().length === 0;
+    });
+
+    startBtn.addEventListener('click', function() {
+        userName = nameInput.value.trim();
+        screenIntro.classList.add('hidden');
+        screenQuiz.classList.remove('hidden');
+        renderQuestion();
+    });
+
+    function renderQuestion() {
+        // 진행도 바 업데이트
+        progressBar.style.width = (currentQuestionIndex / questions.length) * 100 + '%';
+        
+        const currentQ = questions[currentQuestionIndex];
+        questionText.innerHTML = currentQ.text;
+        optionsContainer.innerHTML = ''; 
+
+        currentQ.options.forEach(option => {
+            const button = document.createElement('button');
+            button.className = 'btn option-btn';
+            button.innerText = option.text;
+            button.onclick = () => selectOption(option.id);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function selectOption(choiceId) {
+        userChoices.push(choiceId);
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+            renderQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        progressBar.style.width = '100%'; // 진행도 100%
+        screenQuiz.classList.add('hidden');
+        screenResult.classList.remove('hidden');
+        
+        const finalResult = userChoices.join('');
+        document.getElementById('display-name').innerText = userName;
+        document.getElementById('display-combo').innerText = finalResult;
+
+        // 구글 시트로 데이터 전송 (URL이 세팅되어 있을 때만 작동)
+        if (GOOGLE_SCRIPT_URL !== "여기에_URL을_붙여넣으세요") {
+            const sendUrl = `${GOOGLE_SCRIPT_URL}?name=${encodeURIComponent(userName)}&result=${encodeURIComponent(finalResult)}`;
+            fetch(sendUrl, { method: 'GET', mode: 'no-cors' }).catch(err => console.log('전송 에러:', err));
+        }
+    }
+</script>
 </body>
 </html>
