@@ -20,17 +20,28 @@
         .name-input { width: 80%; padding: 15px; font-size: 16px; border: 2px solid #e1e4e8; border-radius: 12px; margin-bottom: 20px; text-align: center; outline: none; transition: 0.3s; }
         .name-input:focus { border-color: #ff9a9e; }
         
-        /* 버튼 */
-        .btn { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; color: white; background-color: #ff9a9e; border: none; border-radius: 12px; cursor: pointer; transition: 0.2s; word-break: keep-all; }
-        .btn:disabled { background-color: #e1e4e8; color: #999; cursor: not-allowed; }
+        /* 버튼 공통 */
+        .btn { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 12px; cursor: pointer; transition: 0.2s; word-break: keep-all; }
         .btn:active:not(:disabled) { transform: scale(0.98); }
+        
+        /* 포인트 버튼 (시작, 제출) */
+        .btn-primary { color: white; background-color: #ff9a9e; border: none; }
+        .btn-primary:disabled { background-color: #e1e4e8; color: #999; cursor: not-allowed; }
+        
+        /* 문항 버튼 */
         .option-btn { background-color: #f8f9fa; color: #333; border: 2px solid #f1f3f5; margin-bottom: 12px; text-align: left; padding-left: 20px; }
         .option-btn:hover:not(:disabled) { border-color: #ff9a9e; background-color: #fff0f2; }
         
+        /* 서브 버튼 (뒤로가기, 다시하기) */
+        .btn-sub { background-color: transparent; color: #888; border: 1px solid #ddd; margin-top: 15px; }
+        
         /* 결과 화면 */
-        .result-box { background-color: #fff0f2; border-radius: 20px; padding: 40px 20px; margin-top: 20px; }
-        .result-combo { font-size: 40px; font-weight: bold; color: #ff6b81; letter-spacing: 5px; margin: 20px 0; }
+        .result-box { background-color: #fff0f2; border-radius: 20px; padding: 30px 20px; margin-top: 20px; margin-bottom: 20px; }
+        .result-combo { font-size: 40px; font-weight: bold; color: #ff6b81; letter-spacing: 5px; margin: 15px 0; }
         .result-desc { font-size: 16px; line-height: 1.6; color: #555; }
+        
+        /* 제출 강조 텍스트 */
+        .notice-text { font-size: 14px; font-weight: bold; color: #ff6b81; margin-bottom: 15px; word-break: keep-all; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -42,7 +53,7 @@
         <div class="intro-img">✈️</div>
         <div class="title">당신의 여행 스타일은?</div>
         <input type="text" id="user-name" class="name-input" placeholder="이름을 입력해주세요" autocomplete="off">
-        <button id="start-btn" class="btn" disabled>테스트 시작하기</button>
+        <button id="start-btn" class="btn btn-primary" disabled>테스트 시작하기</button>
     </div>
 
     <!-- 2. 문항 화면 -->
@@ -52,6 +63,7 @@
         </div>
         <div id="question-text" class="title"></div>
         <div id="options-container"></div>
+        <button id="back-btn" class="btn btn-sub">⬅️ 이전으로</button>
     </div>
 
     <!-- 3. 결과 화면 -->
@@ -66,12 +78,16 @@
                 결과는 다음주에 공개됩니다!
             </div>
         </div>
+        
+        <div id="submit-notice" class="notice-text">🚨 꼭 아래의 [결과 제출하기] 버튼을 눌러야<br>수련회 조 편성에 반영됩니다!</div>
+        <button id="submit-btn" class="btn btn-primary">결과 제출하기 🚀</button>
+        <button id="retry-btn" class="btn btn-sub">🔄 다시 선택할래요</button>
     </div>
 
 </div>
 
 <script>
-    // ✅ 여기에 추후 발급받을 구글 스크립트 웹앱 URL을 넣게 됩니다.
+    // ✅ 여기에 다시 구글 스크립트 웹앱 URL을 꼭 넣어주세요!
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaCvtTP2K_xEzVlZDZCYbVZxBldAqYFHzVepcxrmQR8jo-1QnFa7dBxr09p69sHkXE/exec"; 
 
     const questions = [
@@ -93,11 +109,17 @@
     const questionText = document.getElementById('question-text');
     const optionsContainer = document.getElementById('options-container');
     const progressBar = document.getElementById('progress-bar');
+    const backBtn = document.getElementById('back-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const retryBtn = document.getElementById('retry-btn');
+    const submitNotice = document.getElementById('submit-notice');
 
+    // 이름 입력 체크
     nameInput.addEventListener('input', function() {
         startBtn.disabled = this.value.trim().length === 0;
     });
 
+    // 시작 버튼
     startBtn.addEventListener('click', function() {
         userName = nameInput.value.trim();
         screenIntro.classList.add('hidden');
@@ -105,10 +127,13 @@
         renderQuestion();
     });
 
+    // 문항 렌더링
     function renderQuestion() {
-        // 진행도 바 업데이트
         progressBar.style.width = (currentQuestionIndex / questions.length) * 100 + '%';
         
+        // 1번 문항이면 이전 버튼 텍스트를 '처음으로', 아니면 '이전으로' 변경
+        backBtn.innerText = currentQuestionIndex === 0 ? "⬅️ 처음으로" : "⬅️ 이전으로";
+
         const currentQ = questions[currentQuestionIndex];
         questionText.innerHTML = currentQ.text;
         optionsContainer.innerHTML = ''; 
@@ -122,6 +147,7 @@
         });
     }
 
+    // 선택지 클릭
     function selectOption(choiceId) {
         userChoices.push(choiceId);
         currentQuestionIndex++;
@@ -133,8 +159,22 @@
         }
     }
 
+    // 뒤로 가기 버튼
+    backBtn.addEventListener('click', function() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            userChoices.pop(); // 마지막에 넣은 선택 지우기
+            renderQuestion();
+        } else {
+            // 1번 문항일 경우 처음 화면으로
+            screenQuiz.classList.add('hidden');
+            screenIntro.classList.remove('hidden');
+        }
+    });
+
+    // 결과 화면 노출
     function showResult() {
-        progressBar.style.width = '100%'; // 진행도 100%
+        progressBar.style.width = '100%';
         screenQuiz.classList.add('hidden');
         screenResult.classList.remove('hidden');
         
@@ -142,12 +182,51 @@
         document.getElementById('display-name').innerText = userName;
         document.getElementById('display-combo').innerText = finalResult;
 
-        // 구글 시트로 데이터 전송 (URL이 세팅되어 있을 때만 작동)
+        // 결과 화면 초기화 (제출 버튼 활성화)
+        submitBtn.disabled = false;
+        submitBtn.innerText = "결과 제출하기 🚀";
+        submitBtn.style.backgroundColor = "#ff9a9e";
+        submitNotice.innerHTML = "🚨 꼭 아래의 [결과 제출하기] 버튼을 눌러야<br>수련회 조 편성에 반영됩니다!";
+        submitNotice.style.color = "#ff6b81";
+    }
+
+    // 다시 하기 버튼
+    retryBtn.addEventListener('click', function() {
+        currentQuestionIndex = 0;
+        userChoices = [];
+        screenResult.classList.add('hidden');
+        screenQuiz.classList.remove('hidden');
+        renderQuestion();
+    });
+
+    // 최종 제출 버튼
+    submitBtn.addEventListener('click', function() {
+        const finalResult = userChoices.join('');
+        
         if (GOOGLE_SCRIPT_URL !== "여기에_URL을_붙여넣으세요") {
             const sendUrl = `${GOOGLE_SCRIPT_URL}?name=${encodeURIComponent(userName)}&result=${encodeURIComponent(finalResult)}`;
-            fetch(sendUrl, { method: 'GET', mode: 'no-cors' }).catch(err => console.log('전송 에러:', err));
+            
+            // 전송 중 표시
+            submitBtn.innerText = "제출하는 중...";
+            
+            fetch(sendUrl, { method: 'GET', mode: 'no-cors' })
+            .then(() => {
+                // 제출 완료 후 UI 변경
+                submitBtn.disabled = true;
+                submitBtn.innerText = "✅ 성공적으로 제출되었습니다!";
+                submitBtn.style.backgroundColor = "#4CAF50"; // 초록색으로 변경
+                
+                submitNotice.innerHTML = "제출이 완료되었습니다. 감사합니다!";
+                submitNotice.style.color = "#4CAF50";
+            })
+            .catch(err => {
+                console.log('전송 에러:', err);
+                submitBtn.innerText = "제출 오류 (다시 시도해주세요)";
+            });
+        } else {
+            alert("구글 시트 연동 주소가 설정되지 않았습니다.");
         }
-    }
+    });
 </script>
 </body>
 </html>
